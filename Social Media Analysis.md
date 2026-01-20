@@ -593,12 +593,6 @@ http://<instance3-ip>:8080/
 
 ---
 
-## 📬 Contact
-
-**Shourya Thapliyal**
-- Email: shouryat32@gmail.com
-- LinkedIn: [Your LinkedIn URL]
-- GitHub: [Your GitHub URL]
 
 ---
 
