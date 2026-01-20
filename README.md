@@ -77,7 +77,6 @@ Data Scientist with 2+ years of software engineering experience at Tata Consulta
 ### 🏥 Phoenix Australia Mental Health Analytics Pipeline
 **Oct 2024 - Dec 2025**
 
-[View Repository](REPO_LINK) | [Live Demo](DEMO_LINK)
 
 **Description:**
 Built an automated data pipeline integrating Qualtrics API to analyze mental health course feedback and track program effectiveness.
@@ -103,7 +102,6 @@ Built an automated data pipeline integrating Qualtrics API to analyze mental hea
 ### 🤖 Machine-Generated Text Detection
 **Kaggle Competition | Jan 2024 - Mar 2024**
 
-[View Repository](REPO_LINK) | [Kaggle Profile](KAGGLE_LINK)
 
 **Description:**
 Developed an ensemble machine learning system to detect AI-generated text, achieving 84% accuracy and ranking in the top 10% of participants.
@@ -121,17 +119,13 @@ Developed an ensemble machine learning system to detect AI-generated text, achie
 - 🏆 Top 10% ranking among XX participants
 - 📈 Improved baseline model by XX%
 
-**Code Snippet:**
-```python
-# Add your key code snippet here
-```
+
 
 ---
 
 ### 🌏 Australia Social Media Analytics Platform
 **University of Melbourne | Aug 2024 - Nov 2024**
 
-[View Repository](REPO_LINK) | [Live Demo](http://172.26.132.47:8080/) | [Documentation](DOCS_LINK)
 
 **Description:**
 Scalable cloud-based analytics system investigating the relationship between social media sentiment and crime rates across Victorian Local Government Areas (LGAs). Processed 61GB Twitter dataset and 100,000+ monthly posts to provide actionable insights for law enforcement and policy-making.
@@ -166,7 +160,6 @@ Scalable cloud-based analytics system investigating the relationship between soc
 ### ❤️ Cardiac Arrhythmia Prediction System
 **Published Research | Undergraduate Thesis | 2019 - 2020**
 
-[View Repository](REPO_LINK) | [Read Publication](PUBLICATION_LINK)
 
 **Description:**
 Machine learning-based diagnostic system to predict cardiac arrhythmias from electrocardiogram (ECG) data. Published research project that classifies patients into 13 different cardiac conditions, enabling early detection of potentially life-threatening heart rhythm abnormalities.
@@ -215,7 +208,7 @@ Normal, Ischemic Changes, Anterior MI, Inferior MI, Sinus Tachycardia, Sinus Bra
 **Thapliyal, S. et al.** "Cardiac Arrhythmia Prediction Using Machine Learning"
 - *Springer ERCICA Volume 1*
 - International Conference on Emerging Research in Computing, Information, Communication and Applications (2020)
-- [Read Paper](PAPER_LINK)
+- [Read Paper](https://link.springer.com/chapter/10.1007/978-981-16-1342-5_3)
 
 ---
 
@@ -251,10 +244,3 @@ Feel free to reach out:
 
 ---
 
-## 📌 Pinned Repositories
-
-<!-- GitHub will automatically show your pinned repositories here -->
-
----
-
-*Last Updated: January 2025*
