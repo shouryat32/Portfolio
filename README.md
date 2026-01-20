@@ -221,14 +221,6 @@ Normal, Ischemic Changes, Anterior MI, Inferior MI, Sinus Tachycardia, Sinus Bra
 
 ---
 
-## 📊 GitHub Stats
-
-![Shourya's GitHub stats](https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=radical)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_USERNAME&layout=compact&theme=radical)
-
----
-
 ## 📫 Let's Connect!
 
 I'm always interested in collaborating on data science projects, particularly in:
