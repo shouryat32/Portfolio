@@ -445,17 +445,6 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Download Dataset
-
-```bash
-# Download from UCI Repository
-wget https://archive.ics.uci.edu/ml/machine-learning-databases/arrhythmia/arrhythmia.data
-wget https://archive.ics.uci.edu/ml/machine-learning-databases/arrhythmia/arrhythmia.names
-
-# Place in data/ directory
-mkdir data
-mv arrhythmia.* data/
-```
 
 ### Running the Pipeline
 
@@ -595,7 +584,6 @@ predictions = classifier.predict(new_patient_data)
 
 **Conference:** International Conference on Emerging Research in Computing, Information, Communication and Applications (ERCICA), 2020
 
-**DOI:** [Add DOI if available]
 
 ---
 
@@ -616,25 +604,7 @@ If you use this work in your research, please cite:
 
 ---
 
-## 🤝 Contributing
 
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
----
-
-## 📧 Contact
-
-**Shourya Thapliyal**
-- Email: shouryat32@gmail.com
-- LinkedIn: [Your LinkedIn]
-- GitHub: [Your GitHub]
-
----
 
 ## 📄 License
 
