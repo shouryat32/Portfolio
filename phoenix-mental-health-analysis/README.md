@@ -743,9 +743,11 @@ class PDFReportGenerator:
 
 ## 📊 Results & Impact
 
+
 ### Quantitative Metrics
 
 **Operational Efficiency:**
+
 
 | Metric | Value | Impact |
 |--------|-------|--------|
@@ -1015,21 +1017,6 @@ Phoenix-Dashboard/ (35,000+ lines of code across 33 modules)
 - Predictive analytics for participant outcomes
 
 ---
-
-
-
-## 📊 Figure References
-
-All figures referenced in this document are extracted from the official technical report submitted to Phoenix Australia and the University of Melbourne (January 2026, 65 pages).
-
-### Figure Source Details
-
-| Figure | Description | Report Location |
-|--------|-------------|-----------------|
-| **Figure 1** | Kirkpatrick Four-Level Evaluation Model | **Page 4, Figure 2.1** |
-| **Figure 2** | Complete System Architecture (4-layer design) | **Page 14, Figure 5.1** |
-| **Figure 3** | Hyperparameter Optimization - K-value Selection | **Page 21, Figure 6.4** |
-| **Figure 4** | Confusion Matrix - SBERT-KNN Performance | **Page 22, Figure 6.5 (CV Outer Loop)** |
 
 **Note on NDA Compliance:** Per non-disclosure agreement with Phoenix Australia, this portfolio excludes:
 - Survey-specific questions and participant responses
