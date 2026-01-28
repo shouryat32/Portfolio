@@ -843,7 +843,7 @@ The system features a comprehensive Dash-based dashboard providing real-time ana
 
 #### 1. Landing Page & Course Selection
 
-![Dashboard Landing Page](figures/dashborad_landing_page.png)
+![Dashboard Landing Page](figures/dashboard_landing_page.png)
 *Dashboard landing page with course selection and navigation*
 
 **Features:**
@@ -866,7 +866,7 @@ The system features a comprehensive Dash-based dashboard providing real-time ana
 
 #### 3. Manual Classification Editor
 
-![Edit Classifications](figures/ediy_classifications.png)
+![Edit Classifications](figures/edit_classifications.png)
 *Human-in-the-loop classification editing interface*
 
 **Features:**
