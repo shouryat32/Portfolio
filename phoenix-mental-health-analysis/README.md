@@ -21,15 +21,18 @@
 - [Problem Statement](#problem-statement)
 - [Solution Overview](#solution-overview)
 - [Technical Implementation](#technical-implementation)
+- [Dashboard Interface](#dashboard-interface)
 - [Results & Impact](#results--impact)
-- [Code Examples](#code-examples)
+- [Technical Challenges & Solutions](#technical-challenges--solutions)
 - [Technology Stack](#technology-stack)
-- [Key Learnings](#key-learnings)
-- [Figure References](#figure-references)
+- [Key Learnings & Skills Demonstrated](#key-learnings--skills-demonstrated)
+- [Project Structure](#project-structure)
+- [Future Enhancements](#future-enhancements)
+- [Contact](#contact)
 
 ---
 
-## 🎯 Executive Summary
+## Executive Summary
 
 Built an end-to-end automated survey analysis system that processes feedback from **190+ mental health training courses**. The system combines Google Gemini LLM, SBERT embeddings, RoBERTa sentiment analysis, and statistical testing to generate publication-quality PDF reports automatically.
 
@@ -47,7 +50,7 @@ Built an end-to-end automated survey analysis system that processes feedback fro
 
 ---
 
-## 🔍 Problem Statement
+## Problem Statement
 
 ### The Challenge
 
@@ -71,14 +74,14 @@ Phoenix Australia, a University of Melbourne-affiliated mental health non-profit
 
 ---
 
-## 🏗️ Solution Overview
+## Solution Overview
 
 ### The Kirkpatrick Four-Level Evaluation Model
 
 The system is built around the Kirkpatrick Model, which evaluates training effectiveness across four hierarchical levels:
 
 ![Kirkpatrick Model](figures/figure1_kirkpatrick_model.png)
-*Figure 1: The Kirkpatrick Four-Level Evaluation Model - hierarchical framework guiding question classification (Report Page 4, Figure 2.1)*
+*Figure 1: The Kirkpatrick Four-Level Evaluation Model*
 
 - **Level 1 (Reaction):** Participant satisfaction, engagement, and perceived relevance
 - **Level 2 (Learning):** Knowledge and skills acquired through training
@@ -92,7 +95,7 @@ This framework guides the entire classification system and structures all analyt
 The solution implements a comprehensive 4-layer architecture that separates concerns and enables independent scaling:
 
 ![System Architecture](figures/figure2_system_architecture.png)
-*Figure 2: Complete System Architecture showing 4-layer design from UI to data storage (Report Page 14, Figure 5.1)*
+*Figure 2: Complete System Architecture showing 4-layer design*
 
 **Architecture Layers:**
 
@@ -128,7 +131,7 @@ The solution implements a comprehensive 4-layer architecture that separates conc
 
 ---
 
-## 💻 Technical Implementation
+## Technical Implementation
 
 ### 1. Intelligent Question Classification System
 
@@ -137,7 +140,7 @@ The solution implements a comprehensive 4-layer architecture that separates conc
 **The Solution:** A hierarchical 4-tier waterfall classification system with intelligent fallback mechanisms ensuring 100% system availability:
 
 ![Classification Pipeline](figures/figure5_classification_pipeline.png)
-*Figure 5: Waterfall Classification Model - 4-tier hierarchical system with graceful degradation (Report Page 33, Figure 6.10)*
+*Figure 5: Waterfall Classification Model - 4-tier hierarchical system*
 
 **How the Waterfall Model Works:**
 
@@ -182,6 +185,7 @@ The waterfall architecture ensures **continuous service** even during:
 This design prioritizes **reliability over perfect accuracy**, ensuring Phoenix Australia can always process surveys even when external services fail.
 
 **Implementation:**
+
 ```python
 class WaterfallClassifier:
     """
@@ -283,7 +287,6 @@ This "never-fail" architecture ensures Phoenix Australia can always analyze surv
 - **70-90% cache hit rate** after initial processing
 - **95% reduction in API costs** (from $100+ to <$5 per analysis)
 - **Self-improving system** as more questions are classified and stored
-```
 
 ### 2. SBERT-KNN Hybrid Classifier
 
@@ -369,7 +372,7 @@ class SBERTKNNHybrid:
 **Model Optimization Process:**
 
 ![KNN Optimization](figures/figure3_knn_optimization.png)
-*Figure 3: Hyperparameter optimization showing K=7 as optimal configuration (Report Page 21, Figure 6.4)*
+*Figure 3: Hyperparameter optimization showing K=7 as optimal*
 
 Through systematic hyperparameter tuning across K values from 3 to 21 and different penalty configurations, **K=7 with L1 penalty** was identified as optimal, achieving:
 - **87.6% accuracy** on cross-validation
@@ -379,7 +382,7 @@ Through systematic hyperparameter tuning across K values from 3 to 21 and differ
 **Classification Performance:**
 
 ![Confusion Matrix](figures/figure4_confusion_matrix.png)
-*Figure 4: Confusion matrix demonstrating balanced SBERT-KNN performance across all Kirkpatrick levels (Report Page 22, Figure 6.5)*
+*Figure 4: Confusion matrix demonstrating balanced performance*
 
 **Detailed Per-Class Metrics:**
 
@@ -824,13 +827,127 @@ class PDFReportGenerator:
 
 ---
 
-## 📊 Results & Impact
+## Dashboard Interface
 
+### Interactive Web Application
+
+The system features a comprehensive Dash-based dashboard providing real-time analytics and visualization capabilities for course evaluation and analysis.
+
+**Technology Stack:**
+- **Framework:** Dash (Python web framework)
+- **Visualization:** Plotly (interactive charts)
+- **Styling:** Dash Bootstrap Components
+- **Backend:** Python Flask server
+
+### Dashboard Features & Screenshots
+
+#### 1. Landing Page & Course Selection
+
+![Dashboard Landing Page](figures/dashboard_landing_page.png)
+*Dashboard landing page with course selection and navigation*
+
+**Features:**
+- Course listing with metadata (date, participants, completion rate)
+- Quick search and filtering capabilities
+- Recent analysis history
+- System status indicators
+
+#### 2. Question Classification Overview
+
+![Classification Overview](figures/show_classification.png)
+*Automated question classification results with confidence scores*
+
+**Features:**
+- Complete question classification breakdown by Kirkpatrick level
+- Confidence scores for each classification
+- Method used (Gemini, SBERT-KNN, Cache)
+- Color-coded confidence indicators
+- Export functionality for review
+
+#### 3. Manual Classification Editor
+
+![Edit Classifications](figures/ediy_classifications.png)
+*Human-in-the-loop classification editing interface*
+
+**Features:**
+- Manual override capability for classifications
+- Side-by-side comparison of AI vs manual classifications
+- Batch editing for efficiency
+- Confidence threshold adjustments
+- Audit trail for changes
+
+#### 4. Participation Analytics
+
+![Participation Metrics](figures/participation.png)
+*Course participation and completion rate analysis*
+
+**Features:**
+- Enrollment and completion statistics
+- Participant demographic breakdowns
+- Response rate tracking
+- Time-series completion trends
+- Dropout point identification
+
+#### 5. Pre/Post Confidence Analysis
+
+![Confidence Analysis](figures/confidence.png)
+*Knowledge confidence improvement visualization*
+
+**Features:**
+- Pre-training vs post-training confidence comparison
+- Distribution density charts
+- Statistical significance markers
+- Individual question breakdowns
+- Improvement trend analysis
+
+#### 6. Statistical Analysis Results
+
+![Statistical Analysis](figures/statistical_analysis.png)
+*Comprehensive statistical test results and interpretations*
+
+**Features:**
+- Paired t-test results with p-values
+- Effect sizes (Cohen's d) with interpretations
+- 95% confidence intervals
+- Statistical power analysis
+- Sample size adequacy warnings
+- Visual significance indicators (*, **, ***)
+
+### User Experience Design
+
+**Navigation:**
+- Intuitive sidebar menu for section access
+- Breadcrumb navigation for deep pages
+- Quick jump to specific Kirkpatrick levels
+- Export options on every analytics page
+
+**Interactivity:**
+- Hover tooltips for detailed information
+- Click-through drill-downs for granular data
+- Dynamic filtering across all visualizations
+- Real-time updates during classification
+
+**Accessibility:**
+- High-contrast color schemes
+- Keyboard navigation support
+- Screen reader compatible
+- Mobile-responsive layouts
+
+**Performance:**
+- Lazy loading for large datasets
+- Cached visualizations for instant display
+- Asynchronous data loading
+- Progress indicators for long operations
+
+> **Note:** All dashboard screenshots have been sanitized to remove identifying information, specific survey content, and participant data per NDA requirements. Only the interface structure and analytical capabilities are demonstrated.
+
+---
+
+## Results & Impact
 
 ### Quantitative Metrics
 
 **Operational Efficiency:**
-
 
 | Metric | Value | Impact |
 |--------|-------|--------|
@@ -887,7 +1004,7 @@ Classification Accuracy Study (n=170 test questions):
 
 ---
 
-## 🚧 Technical Challenges & Solutions
+## Technical Challenges & Solutions
 
 ### Challenge 1: API Rate Limits & Cost Control
 
@@ -979,7 +1096,7 @@ def safe_latex_escape(text: str) -> str:
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 **AI & Machine Learning:**
 - **Google Gemini 1.5 Flash** - Primary LLM classification
@@ -1014,7 +1131,7 @@ def safe_latex_escape(text: str) -> str:
 
 ---
 
-## 🎓 Key Learnings & Skills Demonstrated
+## Key Learnings & Skills Demonstrated
 
 ### Technical Skills
 
@@ -1057,7 +1174,7 @@ def safe_latex_escape(text: str) -> str:
 
 ---
 
-## 📚 Project Structure
+## Project Structure
 
 ```
 Phoenix-Dashboard/ (35,000+ lines of code across 33 modules)
@@ -1079,7 +1196,7 @@ Phoenix-Dashboard/ (35,000+ lines of code across 33 modules)
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 **Short-term Improvements:**
 - Multi-language support for international course expansion
@@ -1101,16 +1218,18 @@ Phoenix-Dashboard/ (35,000+ lines of code across 33 modules)
 
 ---
 
-**Note on NDA Compliance:** Per non-disclosure agreement with Phoenix Australia, this portfolio excludes:
-- Survey-specific questions and participant responses
-- Dashboard UI screenshots showing actual course data
-- Client-specific visualizations and detailed course names
-- Proprietary evaluation metrics and benchmarks
+## Contact
 
-Only technical architecture diagrams, model performance metrics, and generalized code implementations are shown.
+**Email:** shouryat32@gmail.com  
+**LinkedIn:** [www.linkedin.com/in/shourya-thapliyal-53630b153]  
+**GitHub:** https://github.com/shouryat32/Portfolio
+
+---
+
+**Note on NDA Compliance:** Per non-disclosure agreement with Phoenix Australia, this portfolio excludes survey-specific questions, participant responses, dashboard screenshots showing actual course data, client-specific visualizations, and proprietary evaluation metrics. Only technical architecture diagrams, interface structure, model performance metrics, and generalized code implementations are shown.
 
 ---
 
 *This project demonstrates how intelligent system design—combining cutting-edge AI with robust engineering—can transform manual processes into scalable, cost-effective solutions that deliver measurable business impact.*
 
-**Core Innovation:** A self-improving, 3-tier classification system that achieves 87-93% accuracy while reducing costs by 95% through intelligent caching, enabling Phoenix Australia to systematically evaluate all 190+ courses and make data-driven improvements to mental health training programs.
+**Core Innovation:** A self-improving, 4-tier classification system that achieves 87-93% accuracy while reducing costs by 95% through intelligent caching, enabling Phoenix Australia to systematically evaluate all 190+ courses and make data-driven improvements to mental health training programs.
