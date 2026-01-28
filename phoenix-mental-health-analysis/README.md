@@ -81,7 +81,7 @@ Phoenix Australia, a University of Melbourne-affiliated mental health non-profit
 The system is built around the Kirkpatrick Model, which evaluates training effectiveness across four hierarchical levels:
 
 ![Kirkpatrick Model](figures/figure1_kirkpatrick_model.png)
-*Figure 1: The Kirkpatrick Four-Level Evaluation Model*
+*The Kirkpatrick Four-Level Evaluation Model*
 
 - **Level 1 (Reaction):** Participant satisfaction, engagement, and perceived relevance
 - **Level 2 (Learning):** Knowledge and skills acquired through training
@@ -95,7 +95,7 @@ This framework guides the entire classification system and structures all analyt
 The solution implements a comprehensive 4-layer architecture that separates concerns and enables independent scaling:
 
 ![System Architecture](figures/figure2_system_architecture.png)
-*Figure 2: Complete System Architecture showing 4-layer design*
+*Complete System Architecture showing 4-layer design*
 
 **Architecture Layers:**
 
@@ -140,7 +140,7 @@ The solution implements a comprehensive 4-layer architecture that separates conc
 **The Solution:** A hierarchical 4-tier waterfall classification system with intelligent fallback mechanisms ensuring 100% system availability:
 
 ![Classification Pipeline](figures/figure5_classification_pipeline.png)
-*Figure 5: Waterfall Classification Model - 4-tier hierarchical system*
+*Waterfall Classification Model - 4-tier hierarchical system*
 
 **How the Waterfall Model Works:**
 
@@ -372,7 +372,7 @@ class SBERTKNNHybrid:
 **Model Optimization Process:**
 
 ![KNN Optimization](figures/figure3_knn_optimization.png)
-*Figure 3: Hyperparameter optimization showing K=7 as optimal*
+*Hyperparameter optimization showing K=7 as optimal*
 
 Through systematic hyperparameter tuning across K values from 3 to 21 and different penalty configurations, **K=7 with L1 penalty** was identified as optimal, achieving:
 - **87.6% accuracy** on cross-validation
@@ -382,7 +382,7 @@ Through systematic hyperparameter tuning across K values from 3 to 21 and differ
 **Classification Performance:**
 
 ![Confusion Matrix](figures/figure4_confusion_matrix.png)
-*Figure 4: Confusion matrix demonstrating balanced performance*
+*Confusion matrix demonstrating balanced performance*
 
 **Detailed Per-Class Metrics:**
 
@@ -843,7 +843,7 @@ The system features a comprehensive Dash-based dashboard providing real-time ana
 
 #### 1. Landing Page & Course Selection
 
-![Dashboard Landing Page](figures/dashboard_landing_page.png)
+![Dashboard Landing Page](figures/dashborad_landing_page.png)
 *Dashboard landing page with course selection and navigation*
 
 **Features:**
