@@ -7,9 +7,9 @@
 > AI-powered automated survey analysis system using the Kirkpatrick Model to transform mental health training feedback into actionable insights — reducing analysis time by 95%.
 
 **Organization:** Phoenix Australia (Mental Health Non-Profit, University of Melbourne)  
-**Duration:** March 2024 - October 2024  
+**Duration:** March 2025 - October 2025
 **Role:** ML Engineer & Data Scientist  
-**Team:** 5 Graduate Students
+**Team:** Jai Bretherton, Shourya Thapliyal, Shuyuan Liu,Zijing Li, Yewen Su
 
 > **Note:** This project was developed under NDA. This portfolio showcases the technical implementation, architecture, and code without disclosing proprietary survey content, client-sensitive data, or specific participant responses.
 
