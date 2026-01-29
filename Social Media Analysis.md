@@ -10,7 +10,7 @@
 **Institution:** University of Melbourne - School of Computing and Information Systems  
 **Team:** Keshav Prasath, Solmaz Maabi, Shourya Thapliyal
 
-[Live Demo](http://172.26.132.47:8080/) | [Full Report](REPORT_LINK)
+| [Full Report](REPORT_LINK)
 
 ---
 
