@@ -3,19 +3,21 @@
 ![Research](https://img.shields.io/badge/research-published-success)
 ![Springer](https://img.shields.io/badge/publisher-Springer-blue)
 ![Accuracy](https://img.shields.io/badge/accuracy-72%25%2B-brightgreen)
+![Streamlit](https://img.shields.io/badge/dashboard-Streamlit-red)
 
 > Machine learning-based diagnostic system for predicting cardiac arrhythmias from ECG data
 
 **Published Research** | Springer ERCICA Volume 1  
 **Conference:** International Conference on Emerging Research in Computing, Information, Communication and Applications (ERCICA), 2020
 
-[Read Publication](PUBLICATION_LINK) | [View Code](REPO_LINK)
+[📊 Interactive Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/) | [Read Publication](PUBLICATION_LINK)
 
 ---
 
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [Interactive Dashboard](#interactive-dashboard)
 - [Problem Statement](#problem-statement)
 - [Solution Approach](#solution-approach)
 - [Technical Pipeline](#technical-pipeline)
@@ -23,7 +25,6 @@
 - [Results](#results)
 - [Technology Stack](#technology-stack)
 - [Dataset](#dataset)
-- [Installation & Usage](#installation--usage)
 - [Key Learnings](#key-learnings)
 - [Future Work](#future-work)
 - [Citation](#citation)
@@ -37,11 +38,46 @@ This research project develops a comprehensive machine learning pipeline to clas
 ### Key Achievements
 
 ✅ **Published research** in Springer conference proceedings (ERCICA 2020)  
+✅ **Interactive Streamlit dashboard** for model exploration and visualization  
 ✅ **72%+ accuracy** on UCI Cardiac Arrhythmia dataset  
 ✅ **Multi-class classification** across 13 distinct cardiac conditions  
 ✅ **Comparative analysis** of 8 different model configurations  
 ✅ **End-to-end ML pipeline** from raw data to predictions  
 ✅ **Reproducible methodology** with modular codebase
+
+---
+
+## 📊 Interactive Dashboard
+
+**[🚀 Launch Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/)**
+
+The Streamlit dashboard provides an interactive interface to explore the cardiac arrhythmia prediction models, featuring:
+
+### Dashboard Features
+
+🔍 **Model Exploration**
+- Compare performance across 8 different model configurations
+- Interactive visualizations of accuracy metrics
+- Real-time model parameter adjustments
+
+📈 **Data Visualization**
+- Distribution of cardiac conditions in the dataset
+- Feature importance rankings
+- Confusion matrices for model evaluation
+- ROC curves and performance metrics
+
+🧪 **Prediction Interface**
+- Interactive prediction tool for new ECG data
+- Real-time classification results
+- Confidence scores for each cardiac condition
+- Feature contribution analysis
+
+💡 **Educational Components**
+- Explanation of different arrhythmia types
+- Model architecture visualizations
+- Step-by-step pipeline walkthrough
+
+The dashboard makes the research accessible to both technical and non-technical audiences, allowing users to understand the models and explore predictions interactively.
 
 ---
 
@@ -93,6 +129,9 @@ Feature Engineering (278 features)
     (KNN, SVM, Logistic Regression, Naive Bayes)
                     ↓
           Accuracy Evaluation
+                    ↓
+        Streamlit Dashboard
+         (Interactive UI)
 ```
 
 ### Model Comparison Strategy
@@ -101,6 +140,7 @@ Implemented **8 model variants** combining:
 - **4 classification algorithms**
 - **2 feature selection methods**
 - **Systematic performance evaluation**
+- **Interactive dashboard** for exploration
 
 ---
 
@@ -251,6 +291,8 @@ gnb = GaussianNB()
 | Model 7 | SVM (Linear) | Random Forest | ~70 |
 | Model 8 | Gaussian Naive Bayes | Random Forest | ~70 |
 
+**💡 Explore these models interactively:** [View Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/)
+
 ### Evaluation Metrics
 
 ```python
@@ -294,6 +336,8 @@ skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 | Best Performer | KNN (Weighted) | Random Forest | **72%+** |
 | Runner-up | SVM (Linear) | Random Forest | 70% |
 | Baseline | Naive Bayes | Random Forest | 65% |
+
+**📊 Explore detailed results:** [Interactive Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/)
 
 ### Key Findings
 
@@ -348,6 +392,8 @@ X_tsne = tsne.fit_transform(X_selected)
 # Shows clustering of different arrhythmia classes
 ```
 
+*View interactive visualizations in the [Streamlit Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/)*
+
 ---
 
 ## 🛠️ Technology Stack
@@ -368,16 +414,19 @@ scipy==1.7.0          # Scientific computing
 statsmodels==0.12.2   # Statistical analysis
 ```
 
-### Visualization
+### Visualization & Dashboard
 ```python
 matplotlib==3.4.2     # Plotting
 seaborn==0.11.1       # Statistical visualization
+streamlit==1.x.x      # Interactive dashboard
+plotly==5.x.x         # Interactive plots
 ```
 
 ### Development Tools
 - Jupyter Notebook
 - Git version control
 - pytest for unit testing
+- Streamlit Cloud for deployment
 
 ---
 
@@ -419,79 +468,7 @@ seaborn==0.11.1       # Statistical visualization
 - High dimensionality (279 features)
 - Small sample size for rare conditions
 
----
-
-## 🚀 Installation & Usage
-
-### Prerequisites
-
-```bash
-Python 3.7 or higher
-pip package manager
-```
-
-### Setup
-
-```bash
-# Clone repository
-git clone https://github.com/yourusername/cardiac-arrhythmia-ml.git
-cd cardiac-arrhythmia-ml
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-
-### Running the Pipeline
-
-```python
-# 1. Data Preprocessing
-python src/preprocessing.py
-
-# 2. Feature Selection
-python src/feature_selection.py --method random_forest
-
-# 3. Model Training
-python src/train_models.py --model knn --features rf_selected
-
-# 4. Evaluation
-python src/evaluate.py --model knn_weighted
-
-# 5. Generate Visualizations
-python src/visualize.py
-```
-
-### Example: Training KNN Model
-
-```python
-from src.models import CardiacClassifier
-
-# Initialize classifier
-classifier = CardiacClassifier(
-    algorithm='knn',
-    feature_selection='random_forest',
-    n_neighbors=13,
-    weights='distance'
-)
-
-# Load and preprocess data
-classifier.load_data('data/arrhythmia.data')
-classifier.preprocess()
-
-# Train model
-classifier.train()
-
-# Evaluate
-results = classifier.evaluate()
-print(f"Accuracy: {results['accuracy']:.2%}")
-
-# Make predictions
-predictions = classifier.predict(new_patient_data)
-```
+**🔍 Explore the dataset:** [Interactive Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/)
 
 ---
 
@@ -518,6 +495,11 @@ predictions = classifier.predict(new_patient_data)
 - Systematic experimental design
 - Comparative analysis best practices
 - Academic paper writing and publication process
+
+✅ **Dashboard Development**
+- Building interactive ML applications with Streamlit
+- Creating user-friendly interfaces for complex models
+- Deploying data science applications to the cloud
 
 ### Domain Knowledge
 
@@ -560,17 +542,27 @@ predictions = classifier.predict(new_patient_data)
 - Include diverse demographic representations
 - Multi-center validation studies
 
+### Dashboard Enhancements
+
+- **Real-time ECG Integration:** Process live ECG streams
+- **Medical Professional Interface:** Clinical decision support features
+- **Patient Portal:** Simplified view for patient education
+- **API Integration:** Connect with hospital information systems
+- **Mobile App:** Point-of-care diagnostics on mobile devices
+
 ### Clinical Integration
 
 - Real-time ECG stream processing
 - Integration with hospital information systems
 - Mobile app for point-of-care diagnostics
+- Regulatory approval pathway exploration
 
 ### Interpretability
 
 - SHAP values for feature importance
 - Attention mechanisms for critical features
 - Clinical decision support explanations
+- Interactive explainability tools in dashboard
 
 ---
 
@@ -583,7 +575,6 @@ predictions = classifier.predict(new_patient_data)
 **Published in:** Springer ERCICA Volume 1
 
 **Conference:** International Conference on Emerging Research in Computing, Information, Communication and Applications (ERCICA), 2020
-
 
 ---
 
@@ -604,7 +595,13 @@ If you use this work in your research, please cite:
 
 ---
 
+## 🔗 Links & Resources
 
+- **📊 [Interactive Streamlit Dashboard](https://cardiacarythmiadashboard-gul2ru9lfntbb99hsrppnd.streamlit.app/)**
+- **📄 [Published Research Paper](PUBLICATION_LINK)**
+- **📦 [UCI ML Repository - Dataset](https://archive.ics.uci.edu/ml/datasets/Arrhythmia)**
+
+---
 
 ## 📄 License
 
@@ -618,7 +615,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Springer ERCICA Conference organizers
 - Research advisors and collaborators
 - Open-source ML community
+- Streamlit for the dashboard platform
 
 ---
 
-*This project represents the intersection of machine learning and healthcare—using data science to potentially save lives through early cardiac disease detection.*
+*This project represents the intersection of machine learning and healthcare—using data science to potentially save lives through early cardiac disease detection. The interactive dashboard makes this research accessible and actionable for healthcare professionals and researchers.*
