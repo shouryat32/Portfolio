@@ -231,7 +231,7 @@ I'm always interested in collaborating on data science projects, particularly in
 
 Feel free to reach out:
 - 📧 Email: shouryat32@gmail.com
-- 💼 LinkedIn: [YOUR_LINKEDIN_URL]
+- 💼 LinkedIn: [www.linkedin.com/in/shourya-thapliyal-53630b153]
 - 📱 Phone: +61 423 058 511
 
 ---
