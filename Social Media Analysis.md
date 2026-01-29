@@ -10,7 +10,6 @@
 **Institution:** University of Melbourne - School of Computing and Information Systems  
 **Team:** Keshav Prasath, Solmaz Maabi, Shourya Thapliyal
 
-| [Full Report](REPORT_LINK)
 
 ---
 
