@@ -570,7 +570,6 @@ plotly==5.x.x         # Interactive plots
 
 **Title:** Cardiac Arrhythmia Prediction Using Machine Learning
 
-**Authors:** Thapliyal, S. et al.
 
 **Published in:** Springer ERCICA Volume 1
 
