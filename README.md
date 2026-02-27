@@ -3,7 +3,7 @@
 
 **Data Scientist & Software Developer** | Melbourne, Australia
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](YOUR_LINKEDIN_URL)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/shourya-thapliyal-53630b153)
 [![Email](https://img.shields.io/badge/Email-shouryat32%40gmail.com-red)](mailto:shouryat32@gmail.com)
 [![Phone](https://img.shields.io/badge/Phone-%2B61%20423%20058%20511-green)](tel:+61423058511)
 
@@ -11,7 +11,7 @@
 
 ## 🚀 About Me
 
-Data Scientist with 2+ years of software engineering experience at Tata Consultancy Services, specializing in machine learning, NLP, and AI agents. Recent Master of Data Science graduate from the University of Melbourne (2025) with a proven track record of delivering impactful solutions.
+Data Scientist with 2 years of software engineering experience at Tata Consultancy Services, specializing in machine learning, NLP, and AI agents. Recent Master of Data Science graduate from the University of Melbourne (2025) with a proven track record of delivering impactful solutions.
 
 **Key Achievements:**
 - 🎯 84% ML model accuracy in Kaggle competition (Top 10%)
@@ -53,30 +53,56 @@ Data Scientist with 2+ years of software engineering experience at Tata Consulta
 ![JavaScript](https://img.shields.io/badge/JavaScript-Proficient-F7DF1E?logo=javascript&logoColor=black)
 
 ### Machine Learning & AI
-- **Libraries:** scikit-learn, XGBoost, Random Forest, TensorFlow
+- **Libraries:** scikit-learn, XGBoost, CatBoost, FLAML AutoML, TensorFlow
 - **NLP:** Hugging Face Transformers, Agents, MCP
 - **Specializations:** Classification, Ensemble Methods, Feature Engineering
 
 ### Data Engineering & Visualization
-- **Engineering:** Pandas, NumPy, ETL Pipelines, Qualtrics API
+- **Engineering:** PySpark, Delta Lake, Pandas, NumPy, ETL Pipelines, Qualtrics API
 - **Visualization:** Power BI, Tableau, Plotly, Matplotlib, Seaborn
 
 ### Cloud & DevOps
-- **Technologies:** Docker, Ansible, NGINX, REST APIs, CI/CD
+- **Technologies:** Azure Databricks, Docker, Ansible, NGINX, REST APIs, FastAPI, CI/CD
 - **Databases:** PostgreSQL, MySQL, CouchDB, NoSQL
 
 ### Tools & Methods
 - **Development:** Git, JIRA, Jupyter Notebooks, VS Code
 - **Testing:** Selenium, Test Automation
-- **Methodologies:** Agile/Scrum
+- **Methodologies:** Agile/Scrum, Medallion Architecture
 
 ---
 
 ## 📚 Featured Projects
 
+### ⚡ Melbourne Electricity Market Analysis
+**Personal Project | Mar 2023 - Feb 2026 (data coverage)**
+
+[![GitHub](https://img.shields.io/badge/GitHub-View%20Repo-black?logo=github)](https://github.com/shouryat32/melbourne-electricity-market-analysis)
+[![API](https://img.shields.io/badge/Live%20API-energy--models.onrender.com-brightgreen)](https://energy-models.onrender.com/docs)
+
+**Description:**
+Started with a simple question — is installing solar panels in Melbourne actually worth it? The answer (yes, every Melbourne zone rates A-tier with a ~6 year payback) opened a much bigger investigation into Victoria's electricity market. Built a full end-to-end data platform covering 3 years of Victorian grid data, 26,156 hours of prices, generation, and weather, with three production ML models deployed via a live API.
+
+**Tech Stack:** `Azure Databricks` `PySpark` `Delta Lake` `XGBoost` `CatBoost` `FLAML` `FastAPI` `Power BI` `AEMO` `Python`
+
+**Key Features:**
+- Medallion architecture (Bronze → Silver → Gold) processing 500K+ raw records into analytics-ready tables
+- Live data pipeline running hourly via Databricks scheduler — AEMO prices + BOM weather
+- Nightly silver layer build incrementally appending new data at 2am
+- Three ML models: price prediction (R² 0.89), demand forecasting (R² 0.98), spike classifier (ROC-AUC 0.99)
+- All models deployed as a live REST API on Render
+- Power BI dashboard with 4 pages — Price Intelligence, Generation & Renewables, Weather Correlation, AI Price Intelligence
+
+**Key Findings:**
+- 🕛 Cheapest hour: 12pm — $1.40/MWh average
+- 🕕 Most expensive hour: 6pm — $177.76/MWh (a $176/MWh daily spread)
+- ⚡ Negative pricing (grid oversupply) occurred in 23% of all hours over 3 years
+- 🌡️ Summer paradox — Victoria's hottest days actually produce *less* renewable energy (29% vs 55% on cool days) because high-pressure systems kill wind speed
+
+---
+
 ### 🏥 Phoenix Australia Mental Health Analytics Pipeline
 **Oct 2024 - Dec 2025**
-
 
 **Description:**
 Built an automated data pipeline integrating Qualtrics API to analyze mental health course feedback and track program effectiveness.
@@ -94,14 +120,10 @@ Built an automated data pipeline integrating Qualtrics API to analyze mental hea
 - Enabled data-driven decisions for XX program participants
 - Improved feedback response time by XX%
 
-**Screenshots:**
-<!-- Add screenshots here -->
-
 ---
 
 ### 🤖 Machine-Generated Text Detection
 **Kaggle Competition | Jan 2024 - Mar 2024**
-
 
 **Description:**
 Developed an ensemble machine learning system to detect AI-generated text, achieving 84% accuracy and ranking in the top 10% of participants.
@@ -119,13 +141,10 @@ Developed an ensemble machine learning system to detect AI-generated text, achie
 - 🏆 Top 10% ranking among XX participants
 - 📈 Improved baseline model by XX%
 
-
-
 ---
 
 ### 🌏 Australia Social Media Analytics Platform
 **University of Melbourne | Aug 2024 - Nov 2024**
-
 
 **Description:**
 Scalable cloud-based analytics system investigating the relationship between social media sentiment and crime rates across Victorian Local Government Areas (LGAs). Processed 61GB Twitter dataset and 100,000+ monthly posts to provide actionable insights for law enforcement and policy-making.
@@ -147,12 +166,6 @@ Scalable cloud-based analytics system investigating the relationship between soc
 - 🗺️ Mapped sentiment analysis to geographic regions for policy insights
 - 🔄 Achieved fault-tolerant storage with automatic CouchDB failover capabilities
 
-**Technical Highlights:**
-- Integrated 4 diverse data sources: Twitter, Mastodon API, SUDO Crime Statistics, Geospatial Data
-- Implemented multi-language NLP with sarcasm, slang, and emoji detection
-- Built automated data transfer pipeline between analysis and frontend instances
-- Deployed NGINX-hosted web application with interactive visualizations
-
 **Team:** 3-person collaborative project (Keshav Prasath, Solmaz Maabi, Shourya Thapliyal)
 
 ---
@@ -160,29 +173,10 @@ Scalable cloud-based analytics system investigating the relationship between soc
 ### ❤️ Cardiac Arrhythmia Prediction System
 **Published Research | Undergraduate Thesis | 2019 - 2020**
 
-
 **Description:**
 Machine learning-based diagnostic system to predict cardiac arrhythmias from electrocardiogram (ECG) data. Published research project that classifies patients into 13 different cardiac conditions, enabling early detection of potentially life-threatening heart rhythm abnormalities.
 
 **Tech Stack:** `Python` `scikit-learn` `NumPy` `Pandas` `Matplotlib` `UCI Dataset`
-
-**The Problem:**
-Cardiac arrhythmias are irregular heartbeats that can lead to serious complications including stroke, heart failure, and sudden cardiac arrest. Traditional diagnosis requires expert cardiologists to manually analyze ECG readings—a time-consuming process prone to human error.
-
-**Technical Approach:**
-- **Data Processing:** Handled 452 patients × 279 ECG features with missing value imputation
-- **Feature Engineering:** Implemented two dimensionality reduction approaches:
-  - PCA: Reduced 278 features → 50 principal components
-  - Random Forest: Selected ~70 most important features
-- **Multi-class Classification:** Compared 8 model variants across 4 algorithms:
-  - K-Nearest Neighbors (k=13, uniform & weighted voting)
-  - Support Vector Machine (linear kernel)
-  - Logistic Regression with gradient descent
-  - Gaussian Naive Bayes
-- **Visualization:** Applied t-SNE for high-dimensional data visualization
-
-**Classification Targets (13 Conditions):**
-Normal, Ischemic Changes, Anterior MI, Inferior MI, Sinus Tachycardia, Sinus Bradycardia, Ventricular PVC, Supraventricular PVC, Left Bundle Branch Block, Right Bundle Branch Block, Left Ventricular Hypertrophy, Atrial Fibrillation, Others
 
 **Model Performance:**
 - Achieved **72%+ accuracy** on UCI Cardiac Arrhythmia dataset
@@ -193,13 +187,6 @@ Normal, Ischemic Changes, Anterior MI, Inferior MI, Sinus Tachycardia, Sinus Bra
 - 📝 **Published in Springer ERCICA Volume 1** (2020)
 - 🎤 Presented at International Conference on Emerging Research in Computing, Information, Communication and Applications
 - 🏥 Contributes to AI-assisted medical diagnostics for scalable healthcare
-- 🔬 Provides comparative baseline for future cardiac ML research
-
-**Key Learnings:**
-- Handling real-world medical datasets with missing values and class imbalance
-- Implementing and comparing multiple ML algorithms systematically
-- Feature selection techniques for high-dimensional medical data
-- Academic research workflow from experimentation to publication
 
 ---
 
@@ -231,8 +218,5 @@ I'm always interested in collaborating on data science projects, particularly in
 
 Feel free to reach out:
 - 📧 Email: shouryat32@gmail.com
-- 💼 LinkedIn: [www.linkedin.com/in/shourya-thapliyal-53630b153]
+- 💼 LinkedIn: [www.linkedin.com/in/shourya-thapliyal-53630b153](https://www.linkedin.com/in/shourya-thapliyal-53630b153)
 - 📱 Phone: +61 423 058 511
-
----
-
