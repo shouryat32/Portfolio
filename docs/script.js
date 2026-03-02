@@ -1,4 +1,14 @@
 // ===================================
+// REDUCED MOTION CHECK
+// ===================================
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function getScrollBehavior() {
+    return prefersReducedMotion.matches ? 'instant' : 'smooth';
+}
+
+// ===================================
 // SMOOTH SCROLL
 // ===================================
 
@@ -11,7 +21,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const targetPosition = target.offsetTop - navHeight;
             window.scrollTo({
                 top: targetPosition,
-                behavior: 'smooth'
+                behavior: getScrollBehavior()
             });
 
             // Close mobile menu if open
@@ -21,41 +31,83 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===================================
-// SCROLL PROGRESS BAR
+// CONSOLIDATED SCROLL HANDLER
 // ===================================
 
 const navProgress = document.querySelector('.nav-progress');
+const navbar = document.querySelector('.nav');
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-menu a');
+const backToTopBtn = document.getElementById('backToTop');
+const scrollIndicator = document.querySelector('.scroll-indicator');
 
-function updateScrollProgress() {
+function onScroll() {
+    const currentScroll = window.pageYOffset;
     const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
 
+    // Progress bar
     if (navProgress) {
+        const scrolled = (winScroll / height) * 100;
         navProgress.style.width = scrolled + '%';
+    }
+
+    // Navbar shadow
+    if (navbar) {
+        if (currentScroll > 50) {
+            navbar.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.boxShadow = 'none';
+        }
+    }
+
+    // Active navigation
+    let current = '';
+    const navHeight = navbar ? navbar.offsetHeight : 0;
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (currentScroll >= (sectionTop - navHeight - 50)) {
+            current = section.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+            link.classList.add('active');
+        }
+    });
+
+    // Back to top button
+    if (backToTopBtn) {
+        if (currentScroll > 500) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    }
+
+    // Hide scroll indicator after user starts scrolling
+    if (scrollIndicator && currentScroll > 200) {
+        scrollIndicator.classList.add('hidden');
     }
 }
 
-window.addEventListener('scroll', updateScrollProgress);
+window.addEventListener('scroll', onScroll, { passive: true });
 
 // ===================================
-// NAVBAR SCROLL EFFECT
+// BACK TO TOP
 // ===================================
 
-const navbar = document.querySelector('.nav');
-let lastScroll = 0;
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > 50) {
-        navbar.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.boxShadow = 'none';
-    }
-
-    lastScroll = currentScroll;
-});
+if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: getScrollBehavior()
+        });
+    });
+}
 
 // ===================================
 // MOBILE MENU
@@ -247,6 +299,61 @@ vizFilters.forEach(filter => {
 });
 
 // ===================================
+// MODAL FOCUS TRAPPING
+// ===================================
+
+let modalTriggerElement = null;
+
+function trapFocus(modal) {
+    const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const focusableElements = modal.querySelectorAll(focusableSelectors);
+    if (focusableElements.length === 0) return;
+
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    function handleTabKey(e) {
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusable) {
+                e.preventDefault();
+                lastFocusable.focus();
+            }
+        } else {
+            if (document.activeElement === lastFocusable) {
+                e.preventDefault();
+                firstFocusable.focus();
+            }
+        }
+    }
+
+    modal._trapFocusHandler = handleTabKey;
+    modal.addEventListener('keydown', handleTabKey);
+
+    // Focus the close button or first focusable element
+    const closeBtn = modal.querySelector('.viz-modal-close');
+    if (closeBtn) {
+        closeBtn.focus();
+    } else {
+        firstFocusable.focus();
+    }
+}
+
+function releaseFocus(modal) {
+    if (modal._trapFocusHandler) {
+        modal.removeEventListener('keydown', modal._trapFocusHandler);
+        delete modal._trapFocusHandler;
+    }
+
+    // Return focus to trigger element
+    if (modalTriggerElement) {
+        modalTriggerElement.focus();
+        modalTriggerElement = null;
+    }
+}
+
+// ===================================
 // VISUALIZATION MODAL
 // ===================================
 
@@ -287,6 +394,7 @@ function openVizModal(tableauUrl) {
 
         vizModal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        trapFocus(vizModal);
     }
 }
 
@@ -294,6 +402,12 @@ function closeVizModal() {
     if (vizModal) {
         vizModal.classList.remove('active');
         document.body.style.overflow = '';
+
+        // Remove Phoenix keyboard handler to prevent memory leak
+        document.removeEventListener('keydown', handlePhoenixKeyboard);
+
+        // Release focus trap
+        releaseFocus(vizModal);
 
         // Clear the modal body to stop Tableau from loading
         if (vizModalBody) {
@@ -306,6 +420,7 @@ function closeVizModal() {
 vizExpandButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
+        modalTriggerElement = btn;
 
         // Find the parent viz-card and get the Tableau URL
         const vizCard = btn.closest('.viz-card');
@@ -331,6 +446,7 @@ document.querySelectorAll('.viz-card[data-viz-url]').forEach(card => {
         // Don't trigger if clicking the expand button (it has its own handler)
         if (e.target.closest('.viz-card-expand')) return;
 
+        modalTriggerElement = card;
         const tableauUrl = card.dataset.vizUrl;
         const openFullscreen = card.dataset.fullscreen === 'true';
 
@@ -360,32 +476,6 @@ if (vizModal) {
         }
     });
 }
-
-// ===================================
-// ACTIVE NAVIGATION
-// ===================================
-
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-menu a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    const navHeight = document.querySelector('.nav').offsetHeight;
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        if (window.pageYOffset >= (sectionTop - navHeight - 50)) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
 
 // ===================================
 // STAGGERED ANIMATIONS
@@ -436,20 +526,6 @@ if ('IntersectionObserver' in window) {
         imageObserver.observe(img);
     });
 }
-
-// ===================================
-// HOVER EFFECTS
-// ===================================
-
-document.querySelectorAll('.featured-link, .project-card-link').forEach(link => {
-    link.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateX(8px)';
-    });
-
-    link.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateX(0)';
-    });
-});
 
 // ===================================
 // ARCHITECTURE DIAGRAM ANIMATION
@@ -512,35 +588,6 @@ window.addEventListener('load', () => {
 });
 
 // ===================================
-// TABLEAU HANDLING
-// ===================================
-
-document.addEventListener('DOMContentLoaded', () => {
-    const tableauVizElements = document.querySelectorAll('tableau-viz');
-
-    tableauVizElements.forEach(viz => {
-        if (viz.getAttribute('src') === 'YOUR_TABLEAU_PUBLIC_URL_HERE') {
-            // Visualization placeholder - will be shown via CSS
-        }
-    });
-});
-
-// Debug helper
-window.checkTableauViz = function() {
-    const vizElements = document.querySelectorAll('tableau-viz');
-    console.log(`Found ${vizElements.length} Tableau visualizations`);
-
-    vizElements.forEach((viz, index) => {
-        const src = viz.getAttribute('src');
-        console.log(`Viz ${index + 1}:`, src);
-
-        if (src === 'YOUR_TABLEAU_PUBLIC_URL_HERE') {
-            console.warn(`Viz ${index + 1} needs a real Tableau Public URL`);
-        }
-    });
-};
-
-// ===================================
 // PHOENIX GALLERY MODAL
 // ===================================
 
@@ -566,7 +613,7 @@ function openPhoenixGallery(startIndex = 0) {
             <div class="phoenix-gallery">
                 <div class="phoenix-gallery-main">
                     <button class="phoenix-nav phoenix-prev" aria-label="Previous image">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M15 18l-6-6 6-6"/>
                         </svg>
                     </button>
@@ -574,7 +621,7 @@ function openPhoenixGallery(startIndex = 0) {
                         <img src="${phoenixImages[currentPhoenixIndex].src}" alt="${phoenixImages[currentPhoenixIndex].title}" class="phoenix-main-image">
                     </div>
                     <button class="phoenix-nav phoenix-next" aria-label="Next image">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <path d="M9 18l6-6-6-6"/>
                         </svg>
                     </button>
@@ -599,6 +646,7 @@ function openPhoenixGallery(startIndex = 0) {
 
         // Add event listeners for gallery navigation
         setupPhoenixGalleryListeners();
+        trapFocus(vizModal);
     }
 }
 
@@ -622,7 +670,7 @@ function setupPhoenixGalleryListeners() {
         });
     });
 
-    // Keyboard navigation
+    // Keyboard navigation — added once, removed in closeVizModal
     document.addEventListener('keydown', handlePhoenixKeyboard);
 }
 
@@ -670,14 +718,64 @@ function updatePhoenixGallery(index) {
     });
 }
 
-// Handle Phoenix viz card click
+// ===================================
+// POWER BI MODAL
+// ===================================
+
+function openPowerBIModal() {
+    if (vizModal && vizModalBody) {
+        // Show loading state first
+        vizModalBody.innerHTML = `
+            <div class="viz-loading">
+                <p>Loading Power BI dashboard...</p>
+            </div>
+        `;
+
+        vizModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Insert iframe after a tick so loading spinner shows
+        setTimeout(() => {
+            const embedHtml = `
+                <div class="powerbi-embed">
+                    <iframe
+                        title="Energy_Analytics"
+                        width="100%"
+                        height="100%"
+                        src="https://app.powerbi.com/view?r=eyJrIjoiNWMxZjMxOTYtODQ0Yy00YjI2LWI5NTEtNGQyZWRkMWM0NGFjIiwidCI6IjQzNjVmODBiLWJjYzktNDIwOS05OGJlLTgzZjk0MDNjMTg1MSJ9&pageName=43f6a03f310ccb1ca78a"
+                        frameborder="0"
+                        allowFullScreen="true">
+                    </iframe>
+                </div>
+            `;
+            vizModalBody.innerHTML = embedHtml;
+        }, 100);
+
+        trapFocus(vizModal);
+    }
+}
+
+// ===================================
+// CONSOLIDATED DOMContentLoaded
+// ===================================
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Tableau handling
+    const tableauVizElements = document.querySelectorAll('tableau-viz');
+    tableauVizElements.forEach(viz => {
+        if (viz.getAttribute('src') === 'YOUR_TABLEAU_PUBLIC_URL_HERE') {
+            // Visualization placeholder - will be shown via CSS
+        }
+    });
+
+    // Phoenix viz card click handlers
     const phoenixExpandBtn = document.querySelector('.viz-card-expand[data-viz="phoenix"]');
     const phoenixCard = document.querySelector('.viz-card[data-viz="phoenix"]');
 
     if (phoenixExpandBtn) {
         phoenixExpandBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            modalTriggerElement = phoenixExpandBtn;
             openPhoenixGallery(0);
         });
     }
@@ -686,10 +784,51 @@ document.addEventListener('DOMContentLoaded', () => {
         phoenixCard.style.cursor = 'pointer';
         phoenixCard.addEventListener('click', (e) => {
             if (e.target.closest('.viz-card-expand')) return;
+            modalTriggerElement = phoenixCard;
             openPhoenixGallery(0);
         });
     }
+
+    // Power BI viz card click handlers
+    const powerbiExpandBtn = document.querySelector('.viz-card-expand[data-viz="powerbi"]');
+    const powerbiCard = document.querySelector('.viz-card[data-viz="powerbi"]');
+
+    if (powerbiExpandBtn) {
+        powerbiExpandBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modalTriggerElement = powerbiExpandBtn;
+            openPowerBIModal();
+        });
+    }
+
+    if (powerbiCard) {
+        powerbiCard.style.cursor = 'pointer';
+        powerbiCard.addEventListener('click', (e) => {
+            if (e.target.closest('.viz-card-expand')) return;
+            if (e.target.closest('.viz-card-github')) return;
+            modalTriggerElement = powerbiCard;
+            openPowerBIModal();
+        });
+    }
 });
+
+// ===================================
+// DEBUG HELPER
+// ===================================
+
+window.checkTableauViz = function() {
+    const vizElements = document.querySelectorAll('tableau-viz');
+    console.log(`Found ${vizElements.length} Tableau visualizations`);
+
+    vizElements.forEach((viz, index) => {
+        const src = viz.getAttribute('src');
+        console.log(`Viz ${index + 1}:`, src);
+
+        if (src === 'YOUR_TABLEAU_PUBLIC_URL_HERE') {
+            console.warn(`Viz ${index + 1} needs a real Tableau Public URL`);
+        }
+    });
+};
 
 // ===================================
 // CONSOLE MESSAGE
