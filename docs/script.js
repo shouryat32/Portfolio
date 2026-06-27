@@ -623,8 +623,124 @@ window.addEventListener('load', () => {
         document.body.style.transition = 'opacity 0.3s ease';
         document.body.style.opacity = '1';
         addStaggeredAnimations();
+        animateHeroEntrance();
+        setupScrollAnimations();
     }, 10);
 });
+
+// ===================================
+// HERO ENTRANCE
+// ===================================
+
+function animateHeroEntrance() {
+    if (prefersReducedMotion.matches) return;
+
+    const targets = [
+        { sel: '.hero-eyebrow',     delay: 0 },
+        { sel: '.hero-title',       delay: 120 },
+        { sel: '.hero-description', delay: 240 },
+        { sel: '.hero-cta',         delay: 360 },
+        { sel: '.hero-scroll',      delay: 480 },
+    ];
+
+    targets.forEach(({ sel, delay }) => {
+        const el = document.querySelector(sel);
+        if (!el) return;
+        el.style.opacity = '0';
+        setTimeout(() => {
+            el.classList.add('hero-animate');
+        }, delay);
+    });
+}
+
+// ===================================
+// SCROLL-TRIGGERED ANIMATIONS
+// ===================================
+
+function setupScrollAnimations() {
+    if (prefersReducedMotion.matches) return;
+
+    const springEase = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
+
+    // Section title underlines
+    document.querySelectorAll('.section-title').forEach(el => {
+        const line = document.createElement('span');
+        line.className = 'section-title-line';
+        el.appendChild(line);
+    });
+
+    const titleObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelector('.section-title-line')?.classList.add('line-revealed');
+                titleObserver.unobserve(entry.target);
+            }
+        });
+    }, springEase);
+    document.querySelectorAll('.section-title').forEach(el => titleObserver.observe(el));
+
+    // Experience cards — left-to-right stagger
+    const expObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cards = document.querySelectorAll('.experience-card');
+                cards.forEach((card, i) => {
+                    setTimeout(() => card.classList.add('exp-revealed'), i * 110);
+                });
+                expObserver.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    const expSection = document.querySelector('.experience-timeline');
+    if (expSection) expObserver.observe(expSection);
+
+    // Cert items — stagger in pairs
+    const certObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                document.querySelectorAll('.cert-item').forEach((item, i) => {
+                    setTimeout(() => item.classList.add('cert-revealed'), i * 70);
+                });
+                certObserver.disconnect();
+            }
+        });
+    }, { threshold: 0.1 });
+    const certGrid = document.querySelector('.cert-grid');
+    if (certGrid) certObserver.observe(certGrid);
+
+    // Skill tags — wave cascade per category
+    const skillObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.skill-item').forEach((tag, i) => {
+                    setTimeout(() => tag.classList.add('skill-revealed'), i * 50);
+                });
+                skillObserver.unobserve(entry.target);
+            }
+        });
+    }, springEase);
+    document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
+
+    // About section paragraphs
+    const aboutObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('p').forEach((p, i) => {
+                    p.style.opacity = '0';
+                    p.style.transform = 'translateY(20px)';
+                    p.style.transition = `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${i * 100}ms`;
+                    requestAnimationFrame(() => {
+                        p.style.opacity = '1';
+                        p.style.transform = 'translateY(0)';
+                    });
+                });
+                aboutObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    const aboutText = document.querySelector('.about-text');
+    if (aboutText) aboutObserver.observe(aboutText);
+}
 
 // ===================================
 // PHOENIX GALLERY MODAL
