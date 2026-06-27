@@ -253,6 +253,16 @@ document.querySelectorAll('.project-card, .viz-card').forEach(card => {
     staggeredCardsObserver.observe(card);
 });
 
+// Fallback: reveal any still-hidden cards after 1.8s (catches cases where observer doesn't fire)
+setTimeout(() => {
+    document.querySelectorAll('.card-hidden').forEach((card, i) => {
+        setTimeout(() => {
+            card.classList.add('card-revealed');
+            card.classList.remove('card-hidden');
+        }, i * 60);
+    });
+}, 1800);
+
 // ===================================
 // COUNTER ANIMATION
 // ===================================
@@ -661,23 +671,6 @@ function setupScrollAnimations() {
     if (prefersReducedMotion.matches) return;
 
     const springEase = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
-
-    // Section title underlines
-    document.querySelectorAll('.section-title').forEach(el => {
-        const line = document.createElement('span');
-        line.className = 'section-title-line';
-        el.appendChild(line);
-    });
-
-    const titleObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.querySelector('.section-title-line')?.classList.add('line-revealed');
-                titleObserver.unobserve(entry.target);
-            }
-        });
-    }, springEase);
-    document.querySelectorAll('.section-title').forEach(el => titleObserver.observe(el));
 
     // Experience cards — left-to-right stagger
     const expObserver = new IntersectionObserver(entries => {
