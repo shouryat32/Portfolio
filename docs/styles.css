@@ -3084,8 +3084,8 @@ section {
 
 @media (min-width: 768px) {
     .contact-grid {
-        grid-template-columns: 1.6fr 1fr;
-        grid-template-rows: repeat(3, auto);
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto auto;
     }
 }
 
@@ -3204,8 +3204,13 @@ section {
 
 @media (min-width: 768px) {
     .contact-card--primary {
-        grid-column: 1 / 2;
-        grid-row: 1 / 4;
+        grid-column: 1 / -1;
+        grid-row: 1;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: var(--space-lg);
+        padding: var(--space-lg) var(--space-xl);
+        min-height: auto;
     }
 }
 
@@ -4229,4 +4234,378 @@ button:focus {
     .viz-card-github {
         border: 1px solid #ccc;
     }
+}
+
+/* ===================================
+   BRUTALIST EDITORIAL THEME
+   =================================== */
+
+:root {
+    --bg-primary: #0A0A0A;
+    --bg-secondary: #111111;
+    --bg-tertiary: #181818;
+    --bg-hover: #1E1E1E;
+    --border: rgba(240, 237, 230, 0.14);
+    --border-light: rgba(240, 237, 230, 0.07);
+    --text-secondary: #8A8A8A;
+    --text-muted: #555555;
+}
+
+body {
+    background: var(--bg-primary);
+    background-image: none;
+    font-family: var(--font-body, var(--font-primary));
+}
+
+/* NAV — hard border, no blur */
+.nav {
+    background: var(--bg-primary);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 2px solid var(--border);
+    box-shadow: none;
+}
+
+.nav-logo-text,
+.footer-name {
+    letter-spacing: -0.02em;
+}
+
+/* Strip all border-radius */
+.project-card,
+.featured-project,
+.viz-card,
+.contact-card,
+.contact-card--primary,
+.about-panel,
+.cert-item,
+.interest-card,
+.exp-card,
+.skill-category,
+.btn,
+.btn-primary,
+.btn-secondary,
+.nav-cta,
+.hero-metrics,
+.hero-metric,
+.cert-toggle,
+.skill-item,
+.arch-node,
+.arch-node-icon,
+.about-currently,
+.section-eyebrow,
+.about-eyebrow,
+.cert-count-badge,
+.contact-primary-icon-wrap,
+.contact-primary-badge,
+.contact-card-icon,
+.viz-card-expand,
+.viz-card-cta,
+.viz-card-github,
+.footer-social,
+.experience-card,
+.interest-tag,
+.arch-connector {
+    border-radius: 0 !important;
+}
+
+/* Remove all glass / glow box-shadows */
+.project-card,
+.featured-project,
+.viz-card,
+.contact-card,
+.about-panel,
+.interest-card,
+.skill-category {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* Hero — strip dot grid, leave clean */
+.hero {
+    background-image: none;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Oversized section numbers */
+.section-header {
+    position: relative;
+}
+
+.section-eyebrow,
+.about-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    border: none;
+    background: none;
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    padding-bottom: 6px;
+    margin-bottom: var(--space-sm);
+    display: block;
+    width: fit-content;
+}
+
+/* Section title — stark, editorial */
+.section-title {
+    font-size: clamp(2.75rem, 6vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    text-transform: uppercase;
+    padding-top: var(--space-sm);
+    border-top: 3px solid var(--accent);
+    display: inline-block;
+}
+
+/* Project cards — hard-bordered flat boxes */
+.project-card {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.project-card:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent);
+    transform: none;
+    box-shadow: none !important;
+}
+
+.featured-project {
+    background: var(--bg-secondary);
+    border: 2px solid rgba(240, 165, 0, 0.25);
+}
+
+.featured-project::before {
+    display: none;
+}
+
+/* Viz cards */
+.viz-card {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+.viz-card:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent);
+    transform: none;
+    box-shadow: none !important;
+}
+
+.viz-card::before {
+    display: none;
+}
+
+/* Contact cards */
+.contact-card {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+.contact-card:hover {
+    background: var(--bg-secondary);
+    border-color: rgba(240, 237, 230, 0.35);
+    transform: none;
+    box-shadow: none !important;
+}
+
+.contact-card--primary {
+    background: transparent;
+    border: 2px solid var(--accent);
+}
+
+.contact-card--primary:hover {
+    background: rgba(240, 165, 0, 0.06);
+    box-shadow: none !important;
+}
+
+.contact-primary-icon-wrap {
+    background: rgba(240, 165, 0, 0.08);
+    border: 1.5px solid rgba(240, 165, 0, 0.3);
+}
+
+/* About panel */
+.about-panel {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-top: 2px solid var(--accent);
+}
+
+/* Interest cards */
+.interest-card {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+.interest-card:hover {
+    background: var(--bg-secondary);
+    border-color: rgba(240, 237, 230, 0.3);
+    transform: none;
+    box-shadow: none !important;
+}
+
+/* Skill categories */
+.skill-category {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+/* Skill items / tags */
+.skill-item {
+    background: transparent;
+    border: 1px solid var(--border);
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.skill-item:hover {
+    background: transparent;
+    border-color: rgba(240, 237, 230, 0.4);
+    color: var(--text-primary);
+}
+
+/* Cert items */
+.cert-item {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+.cert-item:hover {
+    background: var(--bg-secondary);
+    border-color: rgba(240, 237, 230, 0.3);
+    transform: none;
+    box-shadow: none !important;
+}
+
+.cert-toggle {
+    border-radius: 0 !important;
+    border: 1.5px solid rgba(240, 165, 0, 0.3);
+}
+
+/* Buttons — hard rect */
+.btn-primary {
+    background: var(--accent);
+    color: #0A0A0A;
+    border: 2px solid var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    box-shadow: none;
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+    box-shadow: none !important;
+    transform: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid rgba(240, 237, 230, 0.3);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+.btn-secondary:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    border-color: var(--text-primary);
+    box-shadow: none !important;
+    transform: none;
+}
+
+.nav-cta {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.nav-cta:hover {
+    box-shadow: none !important;
+    transform: none;
+}
+
+/* Footer */
+.footer {
+    border-top: 2px solid var(--border);
+    background: var(--bg-primary);
+}
+
+.footer::before {
+    background: var(--accent);
+    opacity: 1;
+    height: 2px;
+}
+
+.footer-social {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+.footer-social:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0A0A0A;
+    box-shadow: none !important;
+    transform: none;
+}
+
+/* Hero metrics */
+.hero-metric {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    box-shadow: none;
+}
+
+/* Architecture nodes */
+.arch-node {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    box-shadow: none;
+}
+
+.arch-node-icon {
+    background: transparent;
+    border: 1.5px solid var(--border);
+}
+
+/* Nav progress bar — keep accent */
+.nav-progress {
+    background: var(--accent);
+}
+
+/* Experience card hover */
+.experience-card:hover .experience-role {
+    color: var(--text-primary);
+}
+
+.experience-card:hover .experience-dot {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    box-shadow: none;
+}
+
+/* Gradient text — keep but contained */
+.gradient-text {
+    background: linear-gradient(135deg, var(--accent) 0%, #FFD166 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* viz card preview chrome */
+.viz-card-preview::before {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+}
+
+/* Contact badge */
+.contact-primary-badge {
+    border-radius: 0 !important;
+    background: transparent;
+    border: 1px solid var(--border);
 }
