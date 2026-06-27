@@ -152,6 +152,45 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ===================================
+// VIZ CARD CTA BUTTONS
+// ===================================
+
+document.querySelectorAll('.viz-card-cta').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const url = btn.dataset.vizUrl;
+        const viz = btn.dataset.viz;
+        if (url) {
+            window.open(url, '_blank');
+        } else if (viz === 'phoenix') {
+            const phoenixCard = document.querySelector('.viz-card--phoenix');
+            if (phoenixCard) phoenixCard.click();
+        } else if (viz === 'powerbi') {
+            const powerbiCard = document.querySelector('.viz-card[data-viz="powerbi"]');
+            if (powerbiCard) powerbiCard.click();
+        }
+    });
+});
+
+// ===================================
+// CERT OVERFLOW TOGGLE
+// ===================================
+
+const certToggle = document.getElementById('cert-toggle');
+const certOverflow = document.getElementById('cert-overflow');
+
+if (certToggle && certOverflow) {
+    certToggle.addEventListener('click', () => {
+        const isOpen = certOverflow.classList.toggle('is-open');
+        certToggle.setAttribute('aria-expanded', isOpen);
+        certOverflow.setAttribute('aria-hidden', !isOpen);
+        certToggle.querySelector('.cert-toggle-text').textContent = isOpen
+            ? '− Show fewer'
+            : '+ Show all 14 certifications';
+    });
+}
+
+// ===================================
 // FADE IN ON SCROLL
 // ===================================
 
