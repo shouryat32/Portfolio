@@ -626,16 +626,20 @@ if (archDiagram) {
 // SMOOTH PAGE LOAD
 // ===================================
 
-window.addEventListener('load', () => {
-    document.body.style.opacity = '0';
+// Hide body immediately so boot sequence renders on a blank canvas
+document.body.style.opacity = '0';
 
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.3s ease';
-        document.body.style.opacity = '1';
-        addStaggeredAnimations();
-        animateHeroEntrance();
-        setupScrollAnimations();
-    }, 10);
+window.addEventListener('load', () => {
+    runBootSequence(() => {
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.4s ease';
+            document.body.style.opacity = '1';
+            addStaggeredAnimations();
+            animateHeroEntrance();
+            setupScrollAnimations();
+            initTerminalAnimations();
+        }, 10);
+    });
 });
 
 // ===================================
@@ -977,6 +981,280 @@ window.checkTableauViz = function() {
         }
     });
 };
+
+// ===================================
+// TERMINAL ANIMATIONS
+// ===================================
+
+// 5: Boot sequence — shown before page fades in
+function runBootSequence(onDone) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { onDone(); return; }
+
+    const boot = document.createElement('div');
+    boot.className = 'terminal-boot';
+    const lines = [
+        { text: '> initialising <span class="boot-acc">shourya.portfolio</span>', delay: 0 },
+        { text: '> loading projects<span class="boot-ok">  ok</span>', delay: 380 },
+        { text: '> mounting visualisations<span class="boot-ok">  ok</span>', delay: 680 },
+        { text: '> ready<span class="boot-ok">  ✓</span>', delay: 980 },
+    ];
+
+    lines.forEach(({ text, delay }) => {
+        const el = document.createElement('div');
+        el.className = 'boot-line';
+        el.innerHTML = text;
+        boot.appendChild(el);
+        setTimeout(() => el.classList.add('visible'), delay);
+    });
+
+    document.documentElement.appendChild(boot);
+
+    setTimeout(() => {
+        boot.classList.add('boot-done');
+        setTimeout(() => { boot.remove(); onDone(); }, 500);
+    }, 1500);
+}
+
+// master init
+function initTerminalAnimations() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    addNavCursor();
+    typewriteHero();
+    initCommandReveal();
+    initCardStream();
+    initTimelineDraw();
+    initCounters();
+    initHeroParallax();
+    initNavHoverPrefix();
+}
+
+// 4: Blinking cursor after nav logo name
+function addNavCursor() {
+    const logo = document.querySelector('.logo');
+    if (!logo) return;
+    const cur = document.createElement('span');
+    cur.className = 'logo-cursor';
+    cur.textContent = '_';
+    logo.appendChild(cur);
+}
+
+// 1 & (implicit 4): Typewriter on hero title + persistent blinking cursor
+function typewriteHero() {
+    const title = document.querySelector('.hero-title');
+    if (!title) return;
+
+    const originalHTML = title.innerHTML;
+    const fullText = title.textContent;
+
+    // Clear immediately so hero entrance fades in on an empty element
+    const cursor = document.createElement('span');
+    cursor.className = 'type-cursor';
+    cursor.textContent = '_';
+    cursor.style.opacity = '0';
+    title.innerHTML = '';
+    title.appendChild(cursor);
+
+    // Start typing after hero entrance fade completes (~120ms delay + ~560ms transition)
+    setTimeout(() => {
+        cursor.style.opacity = '1';
+        let i = 0;
+        const timer = setInterval(() => {
+            if (i < fullText.length) {
+                title.insertBefore(document.createTextNode(fullText[i]), cursor);
+                i++;
+            } else {
+                clearInterval(timer);
+                cursor.classList.add('type-cursor--done');
+                setTimeout(() => {
+                    title.innerHTML = originalHTML +
+                        '<span class="type-cursor type-cursor--done">_</span>';
+                }, 300);
+            }
+        }, 28);
+    }, 720);
+}
+
+// 2: Command reveal — section titles type out on scroll
+function initCommandReveal() {
+    const titles = document.querySelectorAll('.section-title');
+    if (!titles.length) return;
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            if (el.dataset.typed) return;
+            el.dataset.typed = 'true';
+            observer.unobserve(el);
+
+            const original = el.textContent;
+            el.textContent = '';
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < original.length) {
+                    el.textContent += original[i++];
+                } else {
+                    clearInterval(timer);
+                }
+            }, 38);
+        });
+    }, { threshold: 0.5, rootMargin: '0px 0px -30px 0px' });
+
+    titles.forEach(el => observer.observe(el));
+}
+
+// 3: Line-by-line card stream — children reveal sequentially on scroll
+function initCardStream() {
+    const cards = document.querySelectorAll('.project-card, .viz-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        Array.from(card.children)
+            .filter(c => !c.classList.contains('architecture-diagram'))
+            .forEach(child => {
+                child.style.opacity = '0';
+                child.style.transform = 'translateY(6px)';
+                child.style.transition = 'none';
+            });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const card = entry.target;
+            if (card.dataset.streamed) return;
+            card.dataset.streamed = 'true';
+            observer.unobserve(card);
+
+            Array.from(card.children)
+                .filter(c => !c.classList.contains('architecture-diagram'))
+                .forEach((child, i) => {
+                    setTimeout(() => {
+                        child.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                        child.style.opacity = '1';
+                        child.style.transform = 'translateY(0)';
+                    }, 160 + i * 90);
+                });
+        });
+    }, { threshold: 0.12 });
+
+    cards.forEach(card => observer.observe(card));
+}
+
+// 1: Timeline line draw — line extends left→right, then dots pop in
+function initTimelineDraw() {
+    const timeline = document.querySelector('.exp-timeline-h');
+    if (!timeline) return;
+
+    // Start line at width 0
+    const pseudo = document.createElement('style');
+    pseudo.id = 'timeline-draw-style';
+    pseudo.textContent = `.exp-timeline-h::before { width: 0 !important; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .exp-node { opacity: 0; transform: scale(0); transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }`;
+    document.head.appendChild(pseudo);
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            observer.unobserve(entry.target);
+
+            // Draw the line
+            requestAnimationFrame(() => {
+                const style = document.getElementById('timeline-draw-style');
+                if (style) style.textContent = `.exp-timeline-h::before { width: calc(100% - 10px) !important; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); }
+                .exp-node { opacity: 0; transform: scale(0); transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }`;
+            });
+
+            // Pop dots in after line draws
+            const dots = timeline.querySelectorAll('.exp-node');
+            dots.forEach((dot, i) => {
+                setTimeout(() => {
+                    dot.style.opacity = '1';
+                    dot.style.transform = 'scale(1)';
+                }, 700 + i * 120);
+            });
+        });
+    }, { threshold: 0.4 });
+
+    observer.observe(timeline);
+}
+
+// 2: Number counters — count up from 0 on scroll
+function initCounters() {
+    // Mark elements with data-count
+    const targets = [
+        { sel: '.cert-count-badge', target: 14, suffix: '' },
+        { sel: '.featured-result-value', target: 190, suffix: '+' },
+    ];
+
+    targets.forEach(({ sel, target, suffix }) => {
+        document.querySelectorAll(sel).forEach(el => {
+            el.dataset.countTarget = target;
+            el.dataset.countSuffix = suffix;
+            el.dataset.counted = 'false';
+        });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            if (el.dataset.counted === 'true') return;
+            el.dataset.counted = 'true';
+            observer.unobserve(el);
+
+            const end = parseInt(el.dataset.countTarget);
+            const suffix = el.dataset.countSuffix || '';
+            const duration = 1000;
+            const steps = 40;
+            const increment = end / steps;
+            let current = 0;
+            let step = 0;
+
+            const timer = setInterval(() => {
+                step++;
+                current = Math.min(Math.round(increment * step), end);
+                el.textContent = current + suffix;
+                if (step >= steps) clearInterval(timer);
+            }, duration / steps);
+        });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('[data-count-target]').forEach(el => observer.observe(el));
+}
+
+// 5: Nav hover prefix — handled via CSS (added to styles), JS adds the class
+function initNavHoverPrefix() {
+    // Purely CSS — handled in stylesheet
+}
+
+// 6: Mouse parallax on hero achievement cards
+function initHeroParallax() {
+    const hero = document.querySelector('.hero');
+    const target = document.querySelector('.hero-achievement');
+    if (!hero || !target) return;
+
+    let ticking = false;
+    hero.addEventListener('mousemove', e => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            const rect = hero.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = (e.clientX - cx) / rect.width;   // -0.5 to 0.5
+            const dy = (e.clientY - cy) / rect.height;
+            target.style.transform = `translate(${dx * 14}px, ${dy * 8}px)`;
+            ticking = false;
+        });
+    });
+
+    hero.addEventListener('mouseleave', () => {
+        target.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1)';
+        target.style.transform = 'translate(0,0)';
+        setTimeout(() => { target.style.transition = ''; }, 600);
+    });
+}
 
 // ===================================
 // CONSOLE MESSAGE
