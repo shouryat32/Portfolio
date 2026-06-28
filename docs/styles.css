@@ -223,8 +223,9 @@ body {
 }
 
 .nav-cta:hover {
-    background: var(--accent);
-    color: var(--bg-primary);
+    background: rgba(240, 165, 0, 0.08);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 @media (min-width: 900px) {
@@ -2738,39 +2739,20 @@ section {
     gap: var(--space-sm);
     margin-top: var(--space-lg);
     padding: 14px 28px;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--cat-ml) 100%);
-    color: var(--bg-primary);
+    background: transparent;
+    color: var(--text-primary);
     font-weight: 600;
     font-size: var(--text-base);
     border-radius: 8px;
+    border: 1px solid var(--border);
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.resume-download-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--cat-ml) 0%, var(--accent) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.resume-download-btn:hover::before {
-    opacity: 1;
-}
-
-.resume-download-btn svg,
-.resume-download-btn span {
-    position: relative;
-    z-index: 1;
 }
 
 .resume-download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+    background: rgba(240, 165, 0, 0.08);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .resume-download-btn svg {
